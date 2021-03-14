@@ -1,0 +1,79 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://a/Cal.tscn" type="PackedScene" id=1]
+[ext_resource path="res://a/Object.tscn" type="PackedScene" id=2]
+[ext_resource path="res://a/Uetro.tres" type="DynamicFont" id=3]
+[ext_resource path="res://LevelB.gd" type="Script" id=4]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 1022.0
+margin_bottom = 602.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+margin_left = -610.0
+margin_top = -366.0
+margin_right = -570.0
+margin_bottom = -326.0
+rect_scale = Vector2( 1000, 1000 )
+color = Color( 0.0980392, 0.247059, 0.392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cal" parent="." instance=ExtResource( 1 )]
+position = Vector2( -20, 332 )
+
+[node name="Object" type="RigidBody2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( 3, 75 )
+gravity_scale = 0.1
+
+[node name="N3" type="Label" parent="."]
+visible = false
+margin_left = 201.0
+margin_top = 74.0
+margin_right = 370.0
+margin_bottom = 94.0
+rect_scale = Vector2( 4, 2 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Don't hit the object!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="N4" type="Label" parent="."]
+visible = false
+margin_left = 7.0
+margin_top = 165.0
+margin_right = 262.0
+margin_bottom = 185.0
+rect_scale = Vector2( 4, 2 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Are you even listening to me?!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="N3VisiblerTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="N4VisiblerTimer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[node name="ChangeScene2Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+[connection signal="hit" from="Cal" to="Cal" method="_on_Cal_hit"]
+[connection signal="body_entered" from="Object" to="Object" method="_on_Cal_body_entered"]
+[connection signal="timeout" from="N3VisiblerTimer" to="." method="_on_N3VisiblerTimer_timeout"]
+[connection signal="timeout" from="N4VisiblerTimer" to="." method="_on_N4VisiblerTimer_timeout"]
+[connection signal="timeout" from="ChangeScene2Timer" to="." method="_on_ChangeScene2Timer_timeout"]

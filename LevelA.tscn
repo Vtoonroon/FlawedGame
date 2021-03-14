@@ -1,0 +1,122 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://a/Cal.tscn" type="PackedScene" id=1]
+[ext_resource path="res://a/Enemies.tscn" type="PackedScene" id=2]
+[ext_resource path="res://a/Uetro.tres" type="DynamicFont" id=3]
+[ext_resource path="res://LevelA.gd" type="Script" id=4]
+[ext_resource path="res://a/buton.png" type="Texture" id=5]
+[ext_resource path="res://DoNotPress.gd" type="Script" id=6]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -1.95749, -3.05594, 0, 0, 0, 0, 1029, -0.227509, 0, 0, 0, 0, 1029, -0.227509, 0, 0, 0, 0, 1024.76, 600.813, 0, 0, 0, 0, 1024.76, 600.813, 0, 0, 0, 0, -0.543274, 602.228, 0, 0, 0, 0, -0.543274, 602.228, 0, 0, 0, 0, -1.95749, 4.01514, 0, 0, 0, 0, -1.95749, 4.01514 )
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+margin_left = -618.078
+margin_top = -261.191
+margin_right = -578.078
+margin_bottom = -221.191
+rect_scale = Vector2( 100, 100 )
+color = Color( 0.0980392, 0.247059, 0.392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cal" parent="." instance=ExtResource( 1 )]
+position = Vector2( -72, -7 )
+
+[node name="Enemies" parent="." instance=ExtResource( 2 )]
+collision_mask = 0
+gravity_scale = 0.0
+
+[node name="EnemiesPath" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="EnemiesSpawnLocation" type="PathFollow2D" parent="EnemiesPath"]
+position = Vector2( -1.95749, -3.05594 )
+rotation = 0.00274351
+
+[node name="EnemiesSpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="N1" type="Label" parent="."]
+visible = false
+margin_left = 73.0
+margin_top = 34.0
+margin_right = 372.0
+margin_bottom = 54.0
+rect_scale = Vector2( 3, 2 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "That's not supposed to happen......."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="N1VisibleTimer" type="Timer" parent="."]
+wait_time = 9.0
+one_shot = true
+autostart = true
+
+[node name="N2" type="Label" parent="."]
+visible = false
+margin_left = 90.0
+margin_top = 103.0
+margin_right = 372.0
+margin_bottom = 123.0
+rect_scale = Vector2( 3, 2 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Wait here. I need to fix somthing."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="N2VisibleTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="DoNotPress" type="TextureButton" parent="."]
+visible = false
+margin_left = 190.0
+margin_top = 120.0
+margin_right = 1754.0
+margin_bottom = 808.0
+rect_scale = Vector2( 0.4, 0.3 )
+texture_normal = ExtResource( 5 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="(Do not) press" type="Label" parent="DoNotPress"]
+margin_left = 485.0
+margin_top = 267.0
+margin_right = 600.0
+margin_bottom = 299.0
+rect_scale = Vector2( 5, 4 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0.0117647, 0.0117647, 1 )
+text = "(Do not) press"
+
+[node name="ButtonshowTimer" type="Timer" parent="."]
+wait_time = 17.0
+autostart = true
+[connection signal="hit" from="Cal" to="Enemies" method="_on_Cal_hit"]
+[connection signal="timeout" from="EnemiesSpawnTimer" to="." method="_on_EnemiesSpawnTimer_timeout"]
+[connection signal="timeout" from="N1VisibleTimer" to="." method="_on_N1VisibleTimer_timeout"]
+[connection signal="timeout" from="N2VisibleTimer" to="." method="_on_N2VisibleTimer_timeout"]
+[connection signal="pressed" from="DoNotPress" to="DoNotPress" method="_on_DoNotPress_pressed"]
+[connection signal="timeout" from="ButtonshowTimer" to="." method="_on_ButtonshowTimer_timeout"]
